@@ -80,6 +80,10 @@ module ActiveStorage
           params["response-content-disposition"] = content_disposition_with(type: disposition, filename: filename)
         end
 
+        if sign
+          params["response-cache-control"] = "max-age=#{expires_in}"
+        end
+
         generated_url = object_url(filekey, sign: sign, expires_in: expires_in, params: params)
         payload[:url] = generated_url
         generated_url

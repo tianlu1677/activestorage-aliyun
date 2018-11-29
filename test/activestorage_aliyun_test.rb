@@ -69,7 +69,10 @@ class ActiveStorageAliyun::Test < ActiveSupport::TestCase
   end
 
   test "get url" do
-    assert_equal fixure_url_for(FIXTURE_KEY), @service.url(FIXTURE_KEY, expires_in: 500, filename: "foo.jpg", content_type: "image/jpeg", disposition: :inline)
+    url = @service.url(FIXTURE_KEY, expires_in: 500, filename: "foo.jpg", content_type: "image/jpeg", disposition: :inline)
+    assert_equal fixure_url_for(FIXTURE_KEY), url
+    assert_equal false, url.include?("response-cache-control=")
+    assert_equal false, url.include?("Signature=")
   end
 
   test "get private mode url" do
@@ -78,12 +81,14 @@ class ActiveStorageAliyun::Test < ActiveSupport::TestCase
     assert_equal true, url.include?("OSSAccessKeyId=")
     res = open(url)
     assert_equal ["200", "OK"], res.status
+    assert_equal "private, max-age=500", res.meta["cache-control"]
     assert_equal FIXTURE_DATA, res.read
 
     url = @private_service.url(FIXTURE_KEY, expires_in: 500, content_type: "image/png", disposition: :inline, params: { "x-oss-process" => "image/resize,h_100,w_100" })
     assert_equal true, url.include?("x-oss-process=")
     assert_equal true, url.include?("Signature=")
     assert_equal true, url.include?("OSSAccessKeyId=")
+    assert_equal true, url.include?("response-cache-control=")
     res = open(url)
     assert_equal ["200", "OK"], res.status
   end

@@ -4,16 +4,7 @@ test:
   access_key_secret: <%= ENV["ALIYUN_ACCESS_KEY_SECRET"] %>
   bucket: carrierwave-aliyun-test
   endpoint: https://oss-cn-beijing.aliyuncs.com
-  mode: public
-  path: /aaa/bbb
-
-local:
-  service: Aliyun
-  access_key_id: <%= ENV["ALIYUN_ACCESS_KEY_ID"] %>
-  access_key_secret: <%= ENV["ALIYUN_ACCESS_KEY_SECRET"] %>
-  bucket: carrierwave-aliyun-test
-  endpoint: https://oss-cn-beijing.aliyuncs.com
-  mode: public
+  mode: private
   path: /aaaa/bbb
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)

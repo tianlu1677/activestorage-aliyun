@@ -208,7 +208,7 @@ module ActiveStorage
       end
 
       # CDN采用A方式鉴权
-      def cdn_auth_a_way_url(key, expires_in: 1800, rand_id: nil, cdn_auth_token: nil, cdn_endpoint: nil, **)         
+      def cdn_auth_a_way_url(key, expires_in: 1800, rand_id: nil, cdn_auth_token: nil, cdn_endpoint: nil, process: nil, **)         
         filekey = path_for(key)
         cdn_auth_token ||= config.fetch(:cdn_auth_token)
         cdn_endpoint ||= config.fetch(:cdn_endpoint)
@@ -219,7 +219,7 @@ module ActiveStorage
         md5_key = Digest::MD5.hexdigest(digest_str)
         auth_key = "#{timestamp}-#{rand_id}-#{uid}-#{md5_key}"
 
-        "#{cdn_endpoint}/#{filekey}?auth_key=#{auth_key}"
+        "#{cdn_endpoint}/#{filekey}?auth_key=#{auth_key}&#{process}"
       end
 
       def client

@@ -215,11 +215,11 @@ module ActiveStorage
         rand_id ||= SecureRandom.hex(10)
         uid = 0
         timestamp = Time.now.to_i + expires_in
-        digest_str = "#{filekey}-#{timestamp}-#{rand_id}-#{uid}-#{cdn_auth_token}"        
+        digest_str = "/#{filekey}-#{timestamp}-#{rand_id}-#{uid}-#{cdn_auth_token}"        
         md5_key = Digest::MD5.hexdigest(digest_str)
         auth_key = "#{timestamp}-#{rand_id}-#{uid}-#{md5_key}"
 
-        "#{cdn_endpoint}#{filekey}?auth_key=#{auth_key}"
+        "#{cdn_endpoint}/#{filekey}?auth_key=#{auth_key}"
       end
 
       def client

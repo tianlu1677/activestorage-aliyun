@@ -208,7 +208,7 @@ module ActiveStorage
       end
 
       # CDN采用A方式鉴权
-      def cdn_auth_a_way_url(key, expires_in: 1800, rand_id: nil, cdn_auth_token: nil, cdn_endpoint: nil)         
+      def cdn_auth_a_way_url(key, expires_in: 1800, rand_id: nil, cdn_auth_token: nil, cdn_endpoint: nil, **)         
         filekey = path_for(key)
         cdn_auth_token ||= config.fetch(:cdn_auth_token)
         cdn_endpoint ||= config.fetch(:cdn_endpoint)
